@@ -57,11 +57,14 @@
     mode=0755
   notify:
     - restart tinc
+    
+- name: retrieve public ip
+  ipify_facts:
 
 - name: ensure tinc hosts file binds to physical ip address
   lineinfile: >
     dest=/etc/tinc/{{ netname }}/hosts/{{ inventory_hostname }}
-    line="Address = {{ physical_ip }}"
+    line="Address = {{ ipify_public_ip }}"
     create=yes
   notify:
     - restart tinc
